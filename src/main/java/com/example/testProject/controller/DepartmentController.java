@@ -2,8 +2,8 @@ package com.example.testProject.controller;
 
 import com.example.testProject.dto.request.DepartmentRequestDto;
 import com.example.testProject.dto.response.DepartmentResponseDto;
-import com.example.testProject.dto.response.EmployeeResponseDto;
 import com.example.testProject.entity.Department;
+import com.example.testProject.entity.Employee;
 import com.example.testProject.service.CompanyService;
 import com.example.testProject.service.DepartmentService;
 import com.example.testProject.service.EmployeeService;
@@ -12,6 +12,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +37,16 @@ public class DepartmentController {
         this.companyService = companyService;
         this.employeeService = employeeService;
         this.departmentService = departmentService;
+    }
+
+    @GetMapping("page")
+    @ApiOperation(value = "Page Departments", tags = "pageDepartments")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success")})
+    public ResponseEntity<Page<Department>> pageDepartments(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Department> page;
+        page = departmentService.findAll(pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @PostMapping("save")

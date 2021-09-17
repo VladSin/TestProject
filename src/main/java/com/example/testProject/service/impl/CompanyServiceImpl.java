@@ -4,6 +4,8 @@ import com.example.testProject.entity.Company;
 import com.example.testProject.repository.CompanyRepository;
 import com.example.testProject.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,11 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     public CompanyServiceImpl(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
+    }
+
+    @Override
+    public Page<Company> findAll(Pageable pageable) {
+        return companyRepository.findAll(pageable);
     }
 
     @Override

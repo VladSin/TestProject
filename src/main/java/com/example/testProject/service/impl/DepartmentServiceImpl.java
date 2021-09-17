@@ -4,6 +4,8 @@ import com.example.testProject.entity.Department;
 import com.example.testProject.repository.DepartmentRepository;
 import com.example.testProject.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
         this.departmentRepository = departmentRepository;
+    }
+
+    @Override
+    public Page<Department> findAll(Pageable pageable) {
+        return departmentRepository.findAll(pageable);
     }
 
     @Override

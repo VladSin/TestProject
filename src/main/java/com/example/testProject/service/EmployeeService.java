@@ -3,6 +3,8 @@ package com.example.testProject.service;
 import com.example.testProject.entity.Department;
 import com.example.testProject.entity.Employee;
 import com.example.testProject.exeption.UsernameNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.Optional;
 
 @Service
 public interface EmployeeService {
+
+    Page<Employee> findAll(Pageable pageable);
 
     void saveEmployee(Employee employee);
 

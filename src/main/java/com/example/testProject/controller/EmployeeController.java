@@ -11,6 +11,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +34,16 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService, DepartmentService departmentService) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
+    }
+
+    @GetMapping("page")
+    @ApiOperation(value = "Page Employees", tags = "pageEmployees")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success")})
+    public ResponseEntity<Page<Employee>> pageEmployees(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Employee> page;
+        page = employeeService.findAll(pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @PostMapping("save")
